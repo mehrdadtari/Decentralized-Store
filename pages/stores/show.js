@@ -5,7 +5,7 @@ import { Button, Card, Form, Grid, Message, Rating } from "semantic-ui-react";
 import web3 from "../../ethereum/web3";
 import { Link } from "../../routes";
 
-class CampaignShow extends Component {
+class StoreShow extends Component {
   state = {
     rating: 0,
     errorMessage: "",
@@ -165,4 +165,4 @@ class CampaignShow extends Component {
   }
 }
 
-export default CampaignShow;
+export default StoreShow;

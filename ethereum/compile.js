@@ -9,7 +9,7 @@ const buildPath = path.resolve(__dirname, "build");
 */
 fs.removeSync(buildPath); //It removes a folder and everything inside it.
 
-const storePath = path.resolve(__dirname, "contracts", "Store.sol");
+const storePath = path.resolve(__dirname, "contracts", "Store_compiling.sol");
 const source = fs.readFileSync(storePath, "utf8");
 /*
     Above lines reads the smart contract.

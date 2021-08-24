@@ -4,9 +4,9 @@ import Layout from "../../../components/Layout";
 import { Link } from "../../../routes";
 import web3 from "../../../ethereum/web3";
 import Store from "../../../ethereum/store";
-import RequestRow from "../../../components/RequestRow";
+import ProductRow from "../../../components/ProductRow";
 
-class RequestIndex extends Component {
+class ProductIndex extends Component {
   static async getInitialProps(props) {
     const { address } = props.query;
 
@@ -38,7 +38,7 @@ class RequestIndex extends Component {
   renderRows() {
     return this.props.commodities.map((commodity, index) => {
       return (
-        <RequestRow
+        <ProductRow
           key={index} //key property is a default property for React that we should use whenever we are rendering a list of components.
           commodity={commodity}
           address={this.props.address}
@@ -53,20 +53,25 @@ class RequestIndex extends Component {
 
     return (
       <Layout>
-        <h3>Products:</h3>
-        <Link route={`/stores/${this.props.address}/products/new`}>
-          <a>
-            <Button primary floated="left" style={{ marginBottom: 10 }}>
-              Add Product
-            </Button>
-          </a>
-        </Link>
+        <Header as="h3">Products:</Header>
+        <Header>
+          <Link route={`/stores/${this.props.address}/products/new`}>
+            <a>
+              <Button
+                primary
+                style={{ position: "absolute", left: 1431, top: 80 }}
+              >
+                Add Product
+              </Button>
+            </a>
+          </Link>
+        </Header>
         <Table celled padded>
           <Header>
             <Row>
               <HeaderCell textAlign="center">ID</HeaderCell>
               <HeaderCell textAlign="center">Name</HeaderCell>
-              <HeaderCell textAlign="center">Price in Ether</HeaderCell>
+              <HeaderCell textAlign="center">Price (Ether)</HeaderCell>
               <HeaderCell textAlign="center">Seller Address</HeaderCell>
               <HeaderCell textAlign="center" singleLine>
                 Rating Score
@@ -80,10 +85,18 @@ class RequestIndex extends Component {
           </Header>
           <Body>{this.renderRows()}</Body>
         </Table>
-        <div>Found {this.props.commoditiesCount} products.</div>
+        <div>
+          Found{" "}
+          {
+            <span style={{ fontWeight: "bold" }}>
+              {this.props.commoditiesCount}
+            </span>
+          }{" "}
+          products.
+        </div>
       </Layout>
     );
   }
 }
 
-export default RequestIndex;
+export default ProductIndex;

@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import { Link } from "../routes";
 import Store from "../ethereum/store";
 
-class CampaignIndex extends Component {
+class StoreIndex extends Component {
   /*
   async componentDidMount() {
     const campaigns = await factory.methods.getDeployedCampaigns().call();
@@ -63,10 +63,10 @@ class CampaignIndex extends Component {
   //   <Rating icon="star" defaultRating={3} maxRating={5} disabled />
   // </Container>
 
-  renderCampaigns() {
+  renderStores() {
     const items = this.props.stores.map((address, index) => {
       return (
-        <Card fluid>
+        <Card fluid key={index}>
           <Card.Content>
             <Card.Header>
               <Container textAlign="left">
@@ -114,7 +114,7 @@ class CampaignIndex extends Component {
             </a>
           </Link>
         </div>
-        <div>{this.renderCampaigns()}</div>
+        <div>{this.renderStores()}</div>
       </Layout>
     );
   }
@@ -130,4 +130,4 @@ class CampaignIndex extends Component {
   In order to make "create campaign" button to appear on the right side, we have to 
   add floated="right" property to Button tag and also render Button before {this.renderCampaigns()}.
 */
-export default CampaignIndex;
+export default StoreIndex;

@@ -5,7 +5,7 @@ import Layout from "../../../components/Layout";
 import { Link, Router } from "../../../routes";
 import { Button, Form, Input, Message } from "semantic-ui-react";
 
-class RequestNew extends Component {
+class ProductNew extends Component {
   state = {
     value: "",
     description: "",
@@ -90,4 +90,4 @@ class RequestNew extends Component {
   }
 }
 
-export default RequestNew;
+export default ProductNew;

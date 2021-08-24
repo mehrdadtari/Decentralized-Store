@@ -5,7 +5,7 @@ import factory from "../../ethereum/factory";
 import web3 from "../../ethereum/web3";
 import { Router } from "../../routes";
 
-class CampaignNew extends Component {
+class StoreNew extends Component {
   state = {
     storeName: "",
     errorMessage: "",
@@ -67,4 +67,4 @@ error={!!this.state.errorMessage} inside form: double exclamation marks convert 
 truthy or falsy values. Then, if the error value is falsy, no error message is shown.
 */
 
-export default CampaignNew;
+export default StoreNew;
