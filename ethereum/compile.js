@@ -14,16 +14,36 @@ const source = fs.readFileSync(storePath, "utf8");
 /*
     Above lines reads the smart contract.
 */
+let input = {
+  language: "Solidity",
+  sources: {
+    "Store.sol": {
+      content: source,
+    },
+  },
+  settings: {
+    optimizer: {
+      enabled: true,
+    },
+    outputSelection: {
+      "*": {
+        "*": ["*"],
+      },
+    },
+  },
+};
+const output = JSON.parse(solc.compile(JSON.stringify(input)));
 
-const output = solc.compile(source, 1).contracts;
 //output contains the compiled contracts for any contract written inside Campaign.sol
 
 fs.ensureDirSync(buildPath); //To recreate 'build' folder.
 
-for (let contract in output) {
+//console.log(output);
+
+for (let contract in output.contracts["Store.sol"]) {
   fs.outputJsonSync(
     path.resolve(buildPath, contract.replace(":", "") + ".json"),
-    output[contract]
+    output.contracts["Store.sol"][contract]
   );
 }
 /*

@@ -1,11 +1,12 @@
-pragma solidity ^0.4.17;
+//SPDX-License-Identifier: UNLICENSED
+pragma solidity ^0.8.7;
 //1 ether: 1000000000000000000
 contract StoreFactory {
     address[] public deployedStores;
     
     function createStore(string memory name) public {
-        address newStore = new Store(name, msg.sender);
-        deployedStores.push(newStore);
+        Store newStore = new Store(name, msg.sender);
+        deployedStores.push(address(newStore));
     }
     
     function getDeployedStores() public view returns(address[] memory) {
@@ -21,6 +22,7 @@ contract Store {
         bool available;
         uint reviewScore;
         uint totalReviews;
+        string[] writtenReviews;
         uint numSoldProduct;
         mapping(address => bool) buyers;
         mapping(address => bool) reviews;
@@ -33,6 +35,7 @@ contract Store {
     string public storeName;
     uint public  storeScore;
     uint public numStoreReviews;
+    string[] public storeWrittenReviews;
     mapping(address => bool) storeShopper;
     mapping(address => bool) storeReviews;
     string public bestSeller;
@@ -44,7 +47,7 @@ contract Store {
         _;
     }
     
-    function Store(string name, address creator) public {
+    constructor(string memory name, address creator) {
         storeName = name;
         manager = creator;
     }
@@ -55,7 +58,7 @@ contract Store {
         require(msg.value == product.price);
         require(product.available);
         
-        product.seller.transfer(msg.value);
+        payable(product.seller).transfer(msg.value);
         product.buyers[msg.sender] = true;
         storeShopper[msg.sender] = true;
         product.numSoldProduct++;
@@ -65,7 +68,7 @@ contract Store {
         }
     }
     
-    function createProduct(string description, uint price, address seller) public restricted {
+    function createProduct(string memory description, uint price, address seller) public restricted {
         /*
         product memory newProduct = product({
             description: description,
@@ -87,7 +90,7 @@ contract Store {
         //products.push(newProduct);
     }
     
-    function reviewProduct(uint index, uint review) public returns (uint) {
+    function reviewProduct(uint index, uint review, string memory opinion) public returns (uint, string[] memory) {
         Product storage product = products[index];
         
         require(product.buyers[msg.sender]);//check whether the person is a buyer.
@@ -96,17 +99,19 @@ contract Store {
         product.reviews[msg.sender] = true;// Add the person to list of reviewers.
         product.totalReviews++;
         product.reviewScore = (product.reviewScore*product.totalReviews + review) / (product.totalReviews + 1);
-        return product.reviewScore;
+        product.writtenReviews.push(opinion);
+        return (product.reviewScore, product.writtenReviews);
     }
     
-    function reviewStore(uint review) public returns (uint) {
+    function reviewStore(uint review, string memory opinion) public returns (uint, string[] memory) {
         require(storeShopper[msg.sender]);//check whether the person is a buyer.
         require(!storeReviews[msg.sender]);//check wether the person has already reviewed or not
         require(review <=5 && review > 0 && (review % 1 == 0));
         storeReviews[msg.sender] = true;// Add the person to list of reviewers.
         numStoreReviews++;
         storeScore = (storeScore*(numStoreReviews -1) + review) / (numStoreReviews);
-        return storeScore;
+        storeWrittenReviews.push(opinion);
+        return (storeScore, storeWrittenReviews);
     }
     
     function productAvailable(uint index, bool available) public restricted {
@@ -114,9 +119,13 @@ contract Store {
     }
     
     function getStoreSummary() public view returns (
-        uint, address, string, uint, string, uint, uint
+        uint, address, string memory, uint, string memory, uint, uint
         ) {
         return (numProducts, manager, bestSeller, bestSellerQuantity, storeName, storeScore, numStoreReviews);
+    }
+    
+    function getProductsReviews(uint index) public view returns (string[] memory) {
+        return products[index].writtenReviews;
     }
 
     function getProductsCount()  public view returns (uint) {
