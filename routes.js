@@ -6,7 +6,10 @@ routes
   .add("/stores/:address", "/stores/show")
   .add("/stores/:address/products", "stores/products/index")
   .add("/stores/:address/products/new", "/stores/products/new")
-  .add("/stores/:address/products/review", "/stores/products/review");
+  .add(
+    "/stores/:address/products/:product_id/review",
+    "/stores/products/review"
+  );
 
 //The order of add mehtods are important!
 module.exports = routes;

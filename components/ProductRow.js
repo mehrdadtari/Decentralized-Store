@@ -5,26 +5,12 @@ import Store from "../ethereum/store";
 import { Link } from "../routes";
 
 class ProductRow extends Component {
-  state = { rating: 0 };
-
   onBuy = async () => {
     const store = Store(this.props.address);
     const accounts = await web3.eth.getAccounts();
     await store.methods.buy(this.props.id).send({
       from: accounts[0],
       value: this.props.commodity.price,
-    });
-  };
-
-  onRate = (e, { rating, maxRating }) => {
-    this.setState({ rating, maxRating });
-  };
-
-  onReview = async () => {
-    const store = Store(this.props.address);
-    const accounts = await web3.eth.getAccounts();
-    await store.methods.reviewProduct(this.props.id, this.state.rating).send({
-      from: accounts[0],
     });
   };
 
@@ -81,17 +67,13 @@ class ProductRow extends Component {
           )}
         </Cell>
         <Cell textAlign="center" singleLine>
-          <Rating size="huge" icon="star" maxRating={5} onRate={this.onRate} />{" "}
-          <br />
-          <Button
-            style={{ marginTop: 3 }}
-            size="small"
-            color="teal"
-            basic
-            onClick={this.onReview}
-          >
-            Submit!
-          </Button>
+          <Link route={`/stores/${this.props.address}/products/${id}/review`}>
+            <a>
+              <Button color="teal" basic>
+                Review
+              </Button>
+            </a>
+          </Link>
         </Cell>
         <Cell textAlign="center">
           <Button.Group size="tiny">

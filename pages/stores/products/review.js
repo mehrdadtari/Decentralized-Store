@@ -1,21 +1,29 @@
 import React, { Component } from "react";
 import Layout from "../../../components/Layout";
-import { Form, Input, Message, Button } from "semantic-ui-react";
+import { Form, Input, Message, Button, Rating } from "semantic-ui-react";
 import web3 from "../../../ethereum/web3";
 import Store from "../../../ethereum/store";
+import { Router } from "../../../routes";
 
-class storeReviews extends Component {
+class storeratings extends Component {
   state = {
-    review: 0,
+    rating: 0,
+    review: "",
     errorMessage: "",
     loading: false,
   };
 
   static async getInitialProps(props) {
-    const { address } = props.query;
+    const { address, product_id } = props.query;
+    const store = Store(address);
+    let product = await store.methods.products(product_id).call();
 
-    return { address };
+    return { address, product_id, product };
   }
+
+  onRate = (e, { rating, maxRating }) => {
+    this.setState({ rating, maxRating });
+  };
 
   onSubmit = async (event) => {
     event.preventDefault();
@@ -24,28 +32,41 @@ class storeReviews extends Component {
 
     try {
       const accounts = await web3.eth.getAccounts();
-      const store = Store(this.props.address);
-      await store.methods.reviewProduct(this.state.review).send({
-        from: accounts[0],
-        //When we use Metamask, we don't need to define "gas". Metamask do it automatically.
-      });
+      const store = await Store(this.props.address);
+      await store.methods
+        .reviewProduct(
+          this.props.product_id,
+          this.state.rating,
+          this.state.review
+        )
+        .send({
+          from: accounts[0],
+          //When we use Metamask, we don't need to define "gas". Metamask do it automatically.
+        });
 
-      Router.pushRoute("/");
       //Above code redirects user to the root directory (index.js)
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
 
     this.setState({ loading: false });
+    this.setState({ review: "" });
+    Router.pushRoute(`/stores/${this.props.address}/products`);
   };
 
   render() {
     return (
       <Layout>
-        <h3>Create a Review</h3>
+        <h3>Create a Rating</h3>
         <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
           <Form.Field>
-            <label>Product Name:</label>
+            <label>{this.props.product.description}</label>
+            <Rating
+              size="massive"
+              icon="star"
+              maxRating={5}
+              onRate={this.onRate}
+            />
             <Input
               value={this.state.review}
               onChange={(event) =>
@@ -56,7 +77,7 @@ class storeReviews extends Component {
 
           <Message error header="Oops!" content={this.state.errorMessage} />
           <Button primary loading={this.state.loading}>
-            Create!
+            Submit!
           </Button>
         </Form>
       </Layout>
@@ -64,4 +85,4 @@ class storeReviews extends Component {
   }
 }
 
-export default storeReviews;
+export default storeratings;
