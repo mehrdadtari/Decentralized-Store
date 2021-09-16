@@ -23,6 +23,8 @@ contract Store {
         uint reviewScore;
         uint totalReviews;
         string[] writtenReviews;
+        address[] reviewers;
+        uint[] ratings;
         uint numSoldProduct;
         mapping(address => bool) buyers;
         mapping(address => bool) reviews;
@@ -36,6 +38,8 @@ contract Store {
     uint public  storeScore;
     uint public numStoreReviews;
     string[] public storeWrittenReviews;
+    address[] public storeReviewers;
+    uint[] public storeRatings;
     mapping(address => bool) storeShopper;
     mapping(address => bool) storeReviews;
     string public bestSeller;
@@ -90,7 +94,7 @@ contract Store {
         //products.push(newProduct);
     }
     
-    function reviewProduct(uint index, uint review, string memory opinion) public returns (uint, string[] memory) {
+    function reviewProduct(uint index, uint review, string memory opinion) public returns (uint, string[] memory, address[] memory, uint[] memory) {
         Product storage product = products[index];
         
         require(product.buyers[msg.sender]);//check whether the person is a buyer.
@@ -100,10 +104,12 @@ contract Store {
         product.totalReviews++;
         product.reviewScore = (product.reviewScore*product.totalReviews + review) / (product.totalReviews + 1);
         product.writtenReviews.push(opinion);
-        return (product.reviewScore, product.writtenReviews);
+        product.reviewers.push(msg.sender);
+        product.ratings.push(review);
+        return (product.reviewScore, product.writtenReviews, product.reviewers, product.ratings);
     }
     
-    function reviewStore(uint review, string memory opinion) public returns (uint, string[] memory) {
+    function reviewStore(uint review, string memory opinion) public returns (uint, string[] memory, address[] memory, uint[] memory) {
         require(storeShopper[msg.sender]);//check whether the person is a buyer.
         require(!storeReviews[msg.sender]);//check wether the person has already reviewed or not
         require(review <=5 && review > 0 && (review % 1 == 0));
@@ -111,7 +117,9 @@ contract Store {
         numStoreReviews++;
         storeScore = (storeScore*(numStoreReviews -1) + review) / (numStoreReviews);
         storeWrittenReviews.push(opinion);
-        return (storeScore, storeWrittenReviews);
+        storeReviewers.push(msg.sender);
+        storeRatings.push(review);
+        return (storeScore, storeWrittenReviews, storeReviewers, storeRatings);
     }
     
     function productAvailable(uint index, bool available) public restricted {
@@ -124,8 +132,12 @@ contract Store {
         return (numProducts, manager, bestSeller, bestSellerQuantity, storeName, storeScore, numStoreReviews);
     }
     
-    function getProductsReviews(uint index) public view returns (string[] memory) {
-        return products[index].writtenReviews;
+    function getProductsReviews(uint index) public view returns (string[] memory, address[] memory, uint[] memory) {
+        return (products[index].writtenReviews, products[index].reviewers, products[index].ratings);
+    }
+    
+    function getStoreReviews() public view returns (string[] memory, address[] memory, uint[] memory) {
+        return (storeWrittenReviews, storeReviewers, storeRatings);
     }
 
     function getProductsCount()  public view returns (uint) {

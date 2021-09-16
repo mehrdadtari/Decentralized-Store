@@ -4,11 +4,16 @@ const routes = require("next-routes")();
 routes
   .add("/stores/new", "stores/new")
   .add("/stores/:address", "/stores/show")
+  .add("/stores/:address/reviews", "/stores/storeReviews")
   .add("/stores/:address/products", "stores/products/index")
   .add("/stores/:address/products/new", "/stores/products/new")
   .add(
     "/stores/:address/products/:product_id/review",
     "/stores/products/review"
+  )
+  .add(
+    "/stores/:address/products/:product_id/allReviews",
+    "/stores/products/allReviews"
   );
 
 //The order of add mehtods are important!

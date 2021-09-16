@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import Layout from "../../components/Layout";
 import Store from "../../ethereum/store";
-import { Button, Card, Form, Grid, Message, Rating } from "semantic-ui-react";
+import {
+  Button,
+  Card,
+  Form,
+  Grid,
+  Message,
+  Rating,
+  TextArea,
+} from "semantic-ui-react";
 import web3 from "../../ethereum/web3";
 import { Link } from "../../routes";
 
@@ -10,6 +18,7 @@ class StoreShow extends Component {
     rating: 0,
     errorMessage: "",
     loading: false,
+    review: "",
   };
 
   static async getInitialProps(props) {
@@ -49,14 +58,17 @@ class StoreShow extends Component {
     try {
       const accounts = await web3.eth.getAccounts();
       const store = Store(this.props.address);
-      await store.methods.reviewStore(this.state.rating).send({
-        from: accounts[0],
-        //When we use Metamask, we don't need to define "gas". Metamask do it automatically.
-      });
+      await store.methods
+        .reviewStore(this.state.rating, this.state.review)
+        .send({
+          from: accounts[0],
+          //When we use Metamask, we don't need to define "gas". Metamask do it automatically.
+        });
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
 
+    this.setState({ review: "" });
     this.setState({ loading: false });
   };
 
@@ -105,7 +117,10 @@ class StoreShow extends Component {
             <Card.Header>{`${storeScore} / 5`}</Card.Header>
             <Card.Meta>Store Rating</Card.Meta>
             <Card.Description>
-              This rating is calculated from {<b>{numStoreReviews}</b>} reviews.
+              This rating is calculated from {<b>{numStoreReviews}</b>} reviews.{" "}
+              <Link route={`/stores/${this.props.address}/reviews`}>
+                <a>Click to See All the Reviews.</a>
+              </Link>
             </Card.Description>
           </Card.Content>
         </Card>
@@ -116,11 +131,11 @@ class StoreShow extends Component {
   render() {
     return (
       <Layout>
-        <h3>Store Show</h3>
+        <h3 style={{ marginBottom: 15, color: "DarkCyan" }}>Store Details:</h3>
         <Grid>
           <Grid.Row>
             <Grid.Column width={10}>{this.renderCards()}</Grid.Column>
-            <Grid.Column floated="right" width={4}>
+            <Grid.Column floated="right" width={6}>
               <Form
                 size="huge"
                 onSubmit={this.onSubmit}
@@ -129,10 +144,18 @@ class StoreShow extends Component {
                 <Form.Field>
                   <label style={{ marginBottom: 15 }}>Your Store Rating:</label>
                   <Rating
+                    style={{ marginBottom: 15 }}
                     size="massive"
                     icon="star"
                     maxRating={5}
                     onRate={this.onRate}
+                  />
+                  <TextArea
+                    placeholder="Write a Review..."
+                    value={this.state.review}
+                    onChange={(event) =>
+                      this.setState({ review: event.target.value })
+                    }
                   />
                 </Form.Field>
 

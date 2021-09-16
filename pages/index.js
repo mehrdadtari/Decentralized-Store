@@ -100,7 +100,7 @@ class StoreIndex extends Component {
     return (
       <Layout>
         <div>
-          <h3>Open Stores:</h3>
+          <h3 style={{ marginBottom: 15, color: "DarkCyan" }}>Open Stores:</h3>
 
           <Link route="/stores/new">
             <a>

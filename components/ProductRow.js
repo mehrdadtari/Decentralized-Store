@@ -47,13 +47,22 @@ class ProductRow extends Component {
         </Cell>
         <Cell textAlign="center">{commodity.seller}</Cell>
         <Cell textAlign="center" singleLine>
-          {commodity.reviewScore}/{5} <br />
           <Rating
             icon="star"
             defaultRating={commodity.reviewScore}
             maxRating={5}
             disabled
-          />
+          />{" "}
+          <br />
+          <Link
+            route={`/stores/${this.props.address}/products/${id}/allReviews`}
+          >
+            <a>
+              <Button color="yellow" size="tiny" basic>
+                See Reviews
+              </Button>
+            </a>
+          </Link>
         </Cell>
         <Cell textAlign="center">{commodity.totalReviews}</Cell>
         <Cell textAlign="center">{commodity.numSoldProduct}</Cell>

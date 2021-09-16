@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Layout from "../../../components/Layout";
-import { Form, Input, Message, Button, Rating } from "semantic-ui-react";
+import { Form, Message, Button, Rating, TextArea } from "semantic-ui-react";
 import web3 from "../../../ethereum/web3";
 import Store from "../../../ethereum/store";
 import { Router } from "../../../routes";
@@ -58,16 +58,24 @@ class storeratings extends Component {
     return (
       <Layout>
         <h3>Create a Rating</h3>
-        <Form onSubmit={this.onSubmit} error={!!this.state.errorMessage}>
+        <Form
+          size="huge"
+          onSubmit={this.onSubmit}
+          error={!!this.state.errorMessage}
+        >
           <Form.Field>
-            <label>{this.props.product.description}</label>
+            <label style={{ marginBottom: 15, color: "DarkCyan" }}>
+              {this.props.product.description}
+            </label>
             <Rating
+              style={{ marginBottom: 15 }}
               size="massive"
               icon="star"
               maxRating={5}
               onRate={this.onRate}
             />
-            <Input
+            <TextArea
+              placeholder="Write a Review..."
               value={this.state.review}
               onChange={(event) =>
                 this.setState({ review: event.target.value })

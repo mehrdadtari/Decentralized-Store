@@ -53,7 +53,9 @@ class ProductIndex extends Component {
 
     return (
       <Layout>
-        <Header as="h3">Products:</Header>
+        <Header style={{ marginBottom: 15, color: "DarkCyan" }} as="h3">
+          Products:
+        </Header>
         <Header>
           <Link route={`/stores/${this.props.address}/products/new`}>
             <a>
