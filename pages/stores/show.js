@@ -33,12 +33,11 @@ class StoreShow extends Component {
       address: props.query.address,
       //Only getInitialProps has access to props.query.address. So, we have to return it too use it in render method.
       commoditiesCount: summary[0],
-      manager: summary[1],
-      bestSeller: summary[2],
-      bestSellerQuantity: summary[3],
-      storeName: summary[4],
-      storeScore: summary[5],
-      numStoreReviews: summary[6],
+      bestSeller: summary[1],
+      bestSellerQuantity: summary[2],
+      storeName: summary[3],
+      storeScore: summary[4],
+      numStoreReviews: summary[5],
     };
   }
   /*
@@ -96,8 +95,8 @@ class StoreShow extends Component {
         </Card>
         <Card>
           <Card.Content style={{ overflowWrap: "break-word" }}>
-            <Card.Header>{manager}</Card.Header>
-            <Card.Meta>Address of Manager</Card.Meta>
+            <Card.Header>{this.props.address}</Card.Header>
+            <Card.Meta>Store Address</Card.Meta>
             <Card.Description>
               The manager created this store and can create new products.
             </Card.Description>

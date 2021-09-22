@@ -5,8 +5,14 @@ routes
   .add("/stores/new", "stores/new")
   .add("/stores/:address", "/stores/show")
   .add("/stores/:address/reviews", "/stores/storeReviews")
+  .add("/stores/:address/nimda", "stores/admin/index")
+  .add("/stores/:address/nimda/products", "stores/admin/products/index")
+  .add("/stores/:address/nimda/products/new", "/stores/admin/products/new")
+  .add(
+    "/stores/:address/nimda/products/:product_id/updateProduct",
+    "/stores/admin/products/update"
+  )
   .add("/stores/:address/products", "stores/products/index")
-  .add("/stores/:address/products/new", "/stores/products/new")
   .add(
     "/stores/:address/products/:product_id/review",
     "/stores/products/review"

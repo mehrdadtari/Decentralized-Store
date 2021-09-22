@@ -31,11 +31,11 @@ class StoreIndex extends Component {
     );
 
     const storeNames = storeDetails.map((myStores) => {
-      return myStores[4];
+      return myStores[3];
     });
 
     const storeRatings = storeDetails.map((myStores) => {
-      return myStores[5];
+      return myStores[4];
     });
 
     return { stores, storeNames, storeRatings };

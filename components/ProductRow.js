@@ -14,22 +14,6 @@ class ProductRow extends Component {
     });
   };
 
-  onClickPositive = async () => {
-    const store = Store(this.props.address);
-    const accounts = await web3.eth.getAccounts();
-    await store.methods.productAvailable(this.props.id, true).send({
-      from: accounts[0],
-    });
-  };
-
-  onClickNegative = async () => {
-    const store = Store(this.props.address);
-    const accounts = await web3.eth.getAccounts();
-    await store.methods.productAvailable(this.props.id, false).send({
-      from: accounts[0],
-    });
-  };
-
   render() {
     const { Row, Cell } = Table;
     const { id, commodity } = this.props;
@@ -83,17 +67,6 @@ class ProductRow extends Component {
               </Button>
             </a>
           </Link>
-        </Cell>
-        <Cell textAlign="center">
-          <Button.Group size="tiny">
-            <Button positive onClick={this.onClickPositive}>
-              Yes
-            </Button>
-            <Button.Or />
-            <Button negative onClick={this.onClickNegative}>
-              No
-            </Button>
-          </Button.Group>
         </Cell>
       </Row>
     );

@@ -56,18 +56,6 @@ class ProductIndex extends Component {
         <Header style={{ marginBottom: 15, color: "DarkCyan" }} as="h3">
           Products:
         </Header>
-        <Header>
-          <Link route={`/stores/${this.props.address}/products/new`}>
-            <a>
-              <Button
-                primary
-                style={{ position: "absolute", left: 1431, top: 80 }}
-              >
-                Add Product
-              </Button>
-            </a>
-          </Link>
-        </Header>
         <Table celled padded>
           <Header>
             <Row>
@@ -82,7 +70,6 @@ class ProductIndex extends Component {
               <HeaderCell textAlign="center">Sold Items</HeaderCell>
               <HeaderCell textAlign="center">Buy</HeaderCell>
               <HeaderCell textAlign="center">Your Rating</HeaderCell>
-              <HeaderCell textAlign="center">Available</HeaderCell>
             </Row>
           </Header>
           <Body>{this.renderRows()}</Body>

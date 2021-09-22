@@ -26,12 +26,14 @@ contract Store {
         address[] reviewers;
         uint[] ratings;
         uint numSoldProduct;
+        uint availableInventory;
         mapping(address => bool) buyers;
         mapping(address => bool) reviews;
     }
     
     //product[] public products;
-    address public manager;
+    mapping (address => bool) public managers;
+    address public storeOwner;
     uint public numProducts;
     mapping (uint => Product) public products;
     string public storeName;
@@ -47,13 +49,14 @@ contract Store {
     
     
     modifier restricted() {
-        require(msg.sender == manager);
+        require(managers[msg.sender]);
         _;
     }
     
     constructor(string memory name, address creator) {
         storeName = name;
-        manager = creator;
+        managers[creator] = true;
+        storeOwner = creator;
     }
     
     function buy(uint index) public payable {
@@ -61,18 +64,20 @@ contract Store {
         
         require(msg.value == product.price);
         require(product.available);
+        require(product.availableInventory > 0);
         
         payable(product.seller).transfer(msg.value);
         product.buyers[msg.sender] = true;
         storeShopper[msg.sender] = true;
         product.numSoldProduct++;
+        product.availableInventory--;
         if(product.numSoldProduct>bestSellerQuantity){
             bestSeller = product.description;
             bestSellerQuantity = product.numSoldProduct;
         }
     }
     
-    function createProduct(string memory description, uint price, address seller) public restricted {
+    function createProduct(string memory description, uint price, address seller, uint inventory) public restricted {
         /*
         product memory newProduct = product({
             description: description,
@@ -91,6 +96,7 @@ contract Store {
         newProduct.reviewScore = 5;
         newProduct.totalReviews = 0;
         newProduct.numSoldProduct = 0;
+        newProduct.availableInventory = inventory;
         //products.push(newProduct);
     }
     
@@ -122,14 +128,53 @@ contract Store {
         return (storeScore, storeWrittenReviews, storeReviewers, storeRatings);
     }
     
+    function addManager(address newManager) public restricted {
+        managers[newManager] = true;
+    }
+
+    function deleteManager(address revokedManager) public restricted {
+        require(revokedManager != storeOwner);
+        managers[revokedManager] = false;
+    }
+    
     function productAvailable(uint index, bool available) public restricted {
         products[index].available = available;
+        if(available == false){
+            products[index].availableInventory = 0;
+        }
+    }
+    
+    function updateInventory(uint index, uint inventory) public restricted {
+        products[index].availableInventory = inventory;
+    }
+    
+    function updateProductName(uint index, string memory newProductName) public restricted {
+        products[index].description = newProductName;
+    }
+    
+    function updateProductSeller(uint index, address newSeller) public restricted {
+        products[index].seller = newSeller;
+    }
+
+    function updateProductPrice(uint index, uint newPrice) public restricted {
+        products[index].price = newPrice;
+    }
+
+    function updateProduct(uint index, string memory newProductName, address newSeller, uint newPrice, uint inventory) public restricted {
+        products[index].description = newProductName;
+        products[index].seller = newSeller;
+        products[index].price = newPrice;
+        products[index].availableInventory = inventory;
+    }
+
+    function changeStoreName(string memory newName) public restricted {
+        storeName = newName;
     }
     
     function getStoreSummary() public view returns (
-        uint, address, string memory, uint, string memory, uint, uint
+        uint, string memory, uint, string memory, uint, uint
         ) {
-        return (numProducts, manager, bestSeller, bestSellerQuantity, storeName, storeScore, numStoreReviews);
+        return (numProducts, bestSeller, bestSellerQuantity, storeName, storeScore, numStoreReviews);
     }
     
     function getProductsReviews(uint index) public view returns (string[] memory, address[] memory, uint[] memory) {
