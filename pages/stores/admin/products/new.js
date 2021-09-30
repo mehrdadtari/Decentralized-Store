@@ -69,7 +69,7 @@ class ProductNew extends Component {
           </Form.Field>
 
           <Form.Field>
-            <label>Price in Ether:</label>
+            <label>Price in MATIC:</label>
             <Input
               value={this.state.value}
               onChange={(event) => this.setState({ value: event.target.value })}
@@ -77,7 +77,7 @@ class ProductNew extends Component {
           </Form.Field>
 
           <Form.Field>
-            <label>Seller Ethereum Address:</label>
+            <label>Seller ERC-20 Address:</label>
             <Input
               value={this.state.recipient}
               onChange={(event) =>

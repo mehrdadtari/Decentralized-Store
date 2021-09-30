@@ -19,8 +19,10 @@ class StoreNew extends Component {
 
     try {
       const accounts = await web3.eth.getAccounts();
+      const storeFee = await factory.methods.membershipFee().call();
       await factory.methods.createStore(this.state.storeName).send({
         from: accounts[0],
+        value: storeFee,
         //When we use Metamask, we don't need to define "gas". Metamask do it automatically.
       });
 

@@ -3,14 +3,54 @@ pragma solidity ^0.8.7;
 //1 ether: 1000000000000000000
 contract StoreFactory {
     address[] public deployedStores;
+    mapping (address => bool) public admins;
+    address public creator;
+    address public depositAccount;
+    uint public membershipFee;
     
-    function createStore(string memory name) public {
+    modifier restricted() {
+        require(admins[msg.sender]);
+        _;
+    }
+    
+    constructor() {
+        creator = msg.sender;
+        admins[creator] = true;
+    }
+    
+    function addAdmin(address admin) public restricted {
+        admins[admin] = true;
+    }
+
+    function deleteAdmin(address revokedAdmin) public restricted {
+        require(revokedAdmin != creator);
+        admins[revokedAdmin] = false;
+    }
+    
+    function feeDepositAccount(address newDeposit) public restricted{
+        require(admins[newDeposit] == true);
+        depositAccount = newDeposit;
+    }
+    
+    function changeFee(uint newFee) public restricted {
+        membershipFee = newFee;
+    }
+    
+    function createStore(string memory name) public payable {
+        require(msg.value == membershipFee);
+        payable(depositAccount).transfer(msg.value);
         Store newStore = new Store(name, msg.sender);
         deployedStores.push(address(newStore));
     }
     
     function getDeployedStores() public view returns(address[] memory) {
         return deployedStores;
+    }
+    
+    function getAdminSummary() public view returns (
+        address, address, uint
+        ) {
+        return (creator, depositAccount, membershipFee);
     }
 }
 

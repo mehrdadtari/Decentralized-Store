@@ -244,7 +244,7 @@ class ProductUpdate extends Component {
               Current Price:{" "}
               {
                 <span style={{ color: "DimGrey", fontWeight: "bold" }}>
-                  {web3.utils.fromWei(price, "ether")} Eth{" "}
+                  {web3.utils.fromWei(price, "ether")} MATIC{" "}
                 </span>
               }
             </Card.Meta>

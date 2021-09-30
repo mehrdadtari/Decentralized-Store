@@ -61,7 +61,7 @@ class ProductIndex extends Component {
             <Row>
               <HeaderCell textAlign="center">ID</HeaderCell>
               <HeaderCell textAlign="center">Name</HeaderCell>
-              <HeaderCell textAlign="center">Price (Ether)</HeaderCell>
+              <HeaderCell textAlign="center">Price (MATIC)</HeaderCell>
               <HeaderCell textAlign="center">Seller Address</HeaderCell>
               <HeaderCell textAlign="center" singleLine>
                 Rating Score
