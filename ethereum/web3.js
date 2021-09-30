@@ -23,7 +23,8 @@ if (typeof window !== "undefined" && typeof window.web3 !== "undefined") {
   //We are on the server OR the user is not running Metamask.
   const provider = new Web3.providers.HttpProvider(
     //We make our own provider using a remote Etehreum node such as infura node
-    "https://rinkeby.infura.io/v3/2a416ee9192d417f98510ba67234769e"
+    //"https://rinkeby.infura.io/v3/2a416ee9192d417f98510ba67234769e"
+    "https://rpc-mumbai.maticvigil.com/"
   );
   web3 = new Web3(provider);
 }
