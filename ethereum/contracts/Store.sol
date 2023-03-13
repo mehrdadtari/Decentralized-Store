@@ -1,6 +1,10 @@
 //SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.7;
 //1 ether: 1000000000000000000
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
 contract StoreFactory {
     address[] public deployedStores;
     mapping (address => bool) public admins;
@@ -99,6 +103,33 @@ contract Store {
         storeOwner = creator;
     }
     
+    ERC20 token;
+
+    function paymentMethod(ERC20 _token) public {
+        token = _token;
+    }
+    
+    /*
+    function buy(uint index, uint value) public {
+        Product storage product = products[index];
+        
+        require(value == product.price);
+        require(product.available);
+        require(product.availableInventory > 0);
+        
+        //payable(product.seller).transfer(msg.value);
+        token.transferFrom(msg.sender, product.seller, value);
+        product.buyers[msg.sender] = true;
+        storeShopper[msg.sender] = true;
+        product.numSoldProduct++;
+        product.availableInventory--;
+        if(product.numSoldProduct>bestSellerQuantity){
+            bestSeller = product.description;
+            bestSellerQuantity = product.numSoldProduct;
+        }
+    }
+    */
+
     function buy(uint index) public payable {
         Product storage product = products[index];
         
@@ -107,6 +138,7 @@ contract Store {
         require(product.availableInventory > 0);
         
         payable(product.seller).transfer(msg.value);
+        //token.transferFrom(msg.sender, product.seller, value);
         product.buyers[msg.sender] = true;
         storeShopper[msg.sender] = true;
         product.numSoldProduct++;

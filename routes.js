@@ -15,6 +15,10 @@ routes
   )
   .add("/stores/:address/products", "stores/products/index")
   .add(
+    "/stores/:address/products/:product_id/checkout",
+    "/stores/products/checkout"
+  )
+  .add(
     "/stores/:address/products/:product_id/review",
     "/stores/products/review"
   )
