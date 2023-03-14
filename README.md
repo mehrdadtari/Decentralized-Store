@@ -8,4 +8,7 @@ A user in BitMall can order a product from different stores and leave a review f
 for different products.
 
 ## Running the code
-1. Deploying the "Store Factory" smart contract in Remix. You can find it under ethereum/
+1. Installing Metamask and add "Sepolia testnet" to it. You should deposit some ETH to it through a Sepolia faucet. 
+2. Deploying the "Store Factory" smart contract in Remix. You can find it under ethereum/contracts. You should copy "store.sol" file to Remix. Then, compile and deploy "Store Factory" smart contract from it. You should deploy it to Sepolia testnet. 
+3. Copy the address where you have deployed "Store Factory" smart contract and paste it in "factory.js" under ethereum. It is recommended to replace "Store.json" and "StoreFactory.json" files under 
+
