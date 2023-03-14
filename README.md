@@ -10,5 +10,9 @@ for different products.
 ## Running the code
 1. Installing Metamask and add "Sepolia testnet" to it. You should deposit some ETH to it through a Sepolia faucet. 
 2. Deploying the "Store Factory" smart contract in Remix. You can find it under ethereum/contracts. You should copy "store.sol" file to Remix. Then, compile and deploy "Store Factory" smart contract from it. You should deploy it to Sepolia testnet. 
-3. Copy the address where you have deployed "Store Factory" smart contract and paste it in "factory.js" under ethereum. It is recommended to replace "Store.json" and "StoreFactory.json" files under 
-
+3. Copy the address where you have deployed "Store Factory" smart contract and paste it in "factory.js" under ethereum. It is recommended to replace "Store.json" and "StoreFactory.json" files under ethereum/build with the built files with the same name by Remix.
+4. Installing dependencies by running "npm i" in terminal under main directory.
+5. Running the server by "npm run dev" command in terminal.
+6. Accessing server in the browser using "http://localhost:3000/".
+7. Connecting your metamask account to your lcoalhost.
+8. You can access admin panel through "http://localhost:3000/stores/:address/nimda" where ":address" indicates the address where a specific store is deployed to.
