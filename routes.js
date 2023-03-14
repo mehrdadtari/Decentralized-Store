@@ -1,5 +1,5 @@
 const routes = require("next-routes")();
-//the parantesis at the end shows that this module returns a function instead of a class. and this function is immediately invoked.
+//the parantheses at the end shows that this module returns a function instead of a class. and this function is immediately invoked.
 
 routes
   .add("/nimda", "marketAdmin/index")
@@ -27,5 +27,5 @@ routes
     "/stores/products/allReviews"
   );
 
-//The order of add mehtods are important!
+//The order of add methods are important!
 module.exports = routes;

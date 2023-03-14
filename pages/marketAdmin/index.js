@@ -181,7 +181,7 @@ class Market extends Component {
               Current Fee:{" "}
               {
                 <span style={{ color: "DimGrey", fontWeight: "bold" }}>
-                  {web3.utils.fromWei(membershipFee, "ether")} MATIC
+                  {web3.utils.fromWei(membershipFee, "ether")} ETH
                 </span>
               }
             </Card.Meta>

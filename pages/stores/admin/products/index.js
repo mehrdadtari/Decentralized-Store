@@ -73,7 +73,7 @@ class ProductAdmin extends Component {
             <Row>
               <HeaderCell textAlign="center">ID</HeaderCell>
               <HeaderCell textAlign="center">Name</HeaderCell>
-              <HeaderCell textAlign="center">Price (MATIC)</HeaderCell>
+              <HeaderCell textAlign="center">Price (ETH))</HeaderCell>
               <HeaderCell textAlign="center">Seller Address</HeaderCell>
               <HeaderCell textAlign="center" singleLine>
                 Rating Score

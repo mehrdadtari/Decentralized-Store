@@ -72,14 +72,5 @@ class ProductRow extends Component {
     );
   }
 }
-/*
-            { request.complete ? null : (
-          <Button color="green" basic onClick={this.onApprove}>
-            Approve
-          </Button>
-            )}
-Above code means that if request.complete is true, return null whcih means deleting the button. However, if it is
-false, it will return the button.
-*/
 
 export default ProductRow;

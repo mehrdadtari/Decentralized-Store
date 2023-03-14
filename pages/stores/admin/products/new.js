@@ -69,7 +69,7 @@ class ProductNew extends Component {
           </Form.Field>
 
           <Form.Field>
-            <label>Price in MATIC:</label>
+            <label>Price in ETH:</label>
             <Input
               value={this.state.value}
               onChange={(event) => this.setState({ value: event.target.value })}
