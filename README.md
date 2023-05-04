@@ -1,4 +1,4 @@
-# decentralized-store
+# Decentralized Online Store
 A decentralized store (BitMall) with functionalities similar to Amazon. Sellers can open a store in BitMall in a decentralized fashion by paying a 
 membership fee. Each store can only be accessed by the managers which includes the wallet address of the person who created the store and people 
 who were added by existing managers. Existing managers of a store can create a new manager or revoke existing managers. Managers can also update
